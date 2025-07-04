@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Battery Monitor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/home.css">
+</head>
+  <header>
+    <div class="logo">🔋 Battery Status Notifier</div>
+    <nav class="nav-links">
+      <a href="#">Home</a>
+      <a href="{% url 'features' %}" class="active">Features</a>
+      <a href="{% url 'about' %}">About</a>
+    </nav>
+    <div class="auth-buttons">
+        {% if user.is_authenticated %}
+          <span>Welcome, {{ user.username }}</span>
+          <button>
+          <a href="{% url 'logout' %}" style="color:  white;">Logout</a>
+          </button>
+        {% else %}
+          <button onclick="openModal()">Login / Signup</button>
+        {% endif %}
+
+        {% if messages %}
+      <div style="color: red;">
+        {% for message in messages %}
+          <p class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+      </div>
+        {% endif %}
+    </div>
+  </header>
+
+  <!-- Login/Signup Modal -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+
+      <div id="loginForm" {% if user.is_authenticated %}style="display:none;"{% endif %}>
+        <h2>Login</h2>
+        <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          <input type="text" name="username" placeholder="Username" required><br>
+          <input type="password" name="password" placeholder="Password" required><br>
+          <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+      </div>
+
+      <div id="signupForm" style="display:none;">
+        <h2>Signup</h2>
+        <form method="post" action="{% url 'signup' %}">
+          {% csrf_token %}
+          <input type="text" name="username" placeholder="Username" required><br>
+          <input type="password" name="password" placeholder="Password" required><br>
+          <button type="submit">Signup</button>
+        </form>
+        <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+      </div>
+    </div>
+  </div>
+
+<br>
+  <div class="dashboard">
+    <div class="battery-status">
+        <div class="battery-icon">
+            <div class="battery-outline">
+                <div class="battery-level" id="battery-level"></div>
+            </div>
+            <div class="battery-tip"></div>
+        </div>
+        <div class="battery-info">
+          <h1>Demo Battery Status</h1>
+            <p id="battery-percentage">--%</p>
+            <p id="charging-status">Status: --</p>
+            <p id="time-remaining">Time remaining: --</p>
+            <p id="battery-health">Health: --</p>
+            <br>
+            <h1 >Desktop Battery</h1>
+            <div class="auth-buttons">
+            <button>
+            <a href="{% url 'index' %}">Check Status</a>
+            </button>
+            <div>
+              <br>
+              <h1>External Battery</h1>
+              <a href="{% url 'external_battery_status' %}" >Check Status</a>
+          </div>
+    </div>
+  </div>
+</div>
+    <div class="notification-section">
+        <h2>Notification Settings</h2>
+        <div class="notification-controls">
+            <div class="threshold-control">
+                <label for="low-threshold">Low Battery Alert:</label>
+                <input type="number" id="low-threshold" min="1" max="99" value="20"> %
+            </div>
+            <div class="threshold-control">
+                <label for="high-threshold">High Battery Alert:</label>
+                <input type="number" id="high-threshold" min="1" max="99" value="80"> %
+            </div>
+            <div class="toggle-control">
+                <label class="switch">
+                    <input type="checkbox" id="notifications-toggle" checked>
+                    <span class="slider round"></span>
+                </label>
+                <span>Enable Notifications</span>
+            </div>
+            <div class="toggle-control">
+                <label class="switch">
+                    <input type="checkbox" id="sound-toggle" checked>
+                    <span class="slider round"></span>
+                </label>
+                <span>Enable Sound Alerts</span>
+            </div>
+        </div>
+    </div>
+    <div class="battery-insights">
+        <h2>Battery Usage Insights</h2>
+        <div class="apps-consumption">
+            <h3>Top Battery Consumers</h3>
+            <div class="consumption-list" id="consumption-list">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+        <div class="power-tips">
+            <h3>Power Saving Tips</h3>
+            <ul id="power-tips">
+                <!-- Will be populated by JavaScript -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Notification Popup -->
+<div class="notification-popup" id="notification-popup">
+    <div class="popup-content">
+        <span class="close-popup" id="close-popup">&times;</span>
+        <h3 id="popup-title">Notification</h3>
+        <p id="popup-message">Your battery is at 20%</p>
+    </div>
+</div>
+</div>
+  <br>
+<footer>
+  <div class="footer-container">
+    <div class="footer-left">
+      <h3>🔋 Battery Status Notifier</h3>
+      <p>Stay informed. Stay charged.</p>
+    </div>
+
+    <div class="footer-middle">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="{% url 'features' %}">Features</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-right">
+      <h4>Contact Us</h4>
+      <p>Email: shaivsingh4404@gmail.com</p>
+      <p>Phone: +91-9554140641</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Battery Status Notifier. All rights reserved.</p>
+  </div>
+</footer>
+
+  <script src="/static/home.js"></script>
+</body>
+</html>

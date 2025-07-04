@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About - Battery Status Notifier</title>
+  <link rel="stylesheet" href="/static/about.css" />
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">🔋 Battery Status Notifier</div>
+    <nav class="nav-links">
+      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'features' %}">Features</a>
+      <a href="#" class="active">About</a>
+    </nav>
+    <div class="auth-buttons">
+        {% if user.is_authenticated %}
+          <span>Welcome, {{ user.username }}</span>
+          <button>
+          <a href="{% url 'logout' %}" style="color:  white;">Logout</a>
+          </button>
+        {% else %}
+          <button onclick="openModal()">Login / Signup</button>
+        {% endif %}
+
+        {% if messages %}
+      <div style="color: red;">
+        {% for message in messages %}
+          <p class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+      </div>
+        {% endif %}
+    </div>
+  </header>
+
+  <!-- Login/Signup Modal -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+
+      <div id="loginForm" {% if user.is_authenticated %}style="display:none;"{% endif %}>
+        <h2>Login</h2>
+        <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          <input type="text" name="username" placeholder="Username" required><br>
+          <input type="password" name="password" placeholder="Password" required><br>
+          <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+      </div>
+
+      <div id="signupForm" style="display:none;">
+        <h2>Signup</h2>
+        <form method="post" action="{% url 'signup' %}">
+          {% csrf_token %}
+          <input type="text" name="username" placeholder="Username" required><br>
+          <input type="password" name="password" placeholder="Password" required><br>
+          <button type="submit">Signup</button>
+        </form>
+        <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+      </div>
+    </div>
+  </div>
+    
+  </header>
+
+  <main class="about-section">
+    <h1>About Us</h1>
+    <p class="intro">
+      Battery Status Notifier is an innovative solution designed to help users monitor and manage battery levels effectively for external battery sources connected via Arduino.
+    </p>
+
+    <section class="about-content">
+      <h2>🔧 Our Mission</h2>
+      <p>
+        Our goal is to provide a reliable real-time monitoring system that keeps users informed about the health and performance of their batteries—whether used in devices, robots, or IoT systems.
+      </p>
+
+      <h2>⚙️ How It Works</h2>
+      <p>
+        The system combines hardware components like Arduino Uno and voltage sensors with Django-powered software that delivers live updates and smart notifications to users through a web interface.
+      </p>
+
+      <h2>👨‍💻 Built By</h2>
+      <p>
+        This project is developed by tech enthusiasts passionate about embedded systems, web technologies, and creating solutions that simplify everyday tasks.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Battery Status Notifier. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

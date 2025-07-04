@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Battery Status Notifier</title>
+  <link rel="stylesheet" href="/static/index.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="navbar">
+    <div class="logo">Battery Status Notifier</div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/features/">Features</a>
+      <a href="/about/">About</a>
+    </nav>
+    <div class="auth-buttons">
+      
+    </div>
+  </header>
+
+  <h1>Desktop Battery Monitor</h1>
+
+  <div class="battery-container">
+    <div class="battery-level" id="level"></div>
+  </div>
+
+  <p class="info" id="percent">Loading battery...</p>
+  <p class="info" id="charging">Charging status: --</p>
+  <p class="info" id="time">Time remaining: --</p>
+
+  <!-- Low battery warning -->
+  <div class="notification" id="batteryWarning">
+    ⚠️ Battery low! Please plug in your charger.
+  </div>
+
+  <!-- High battery warning -->
+  <div class="notification success" id="batteryHigh">
+    🔌 Battery Getting Full Please unplug the charger.
+  </div>
+
+  <!-- Settings -->
+  <div class="settings">
+    <h3>Settings</h3>
+
+    <label for="threshold">Low Battery Threshold (%)</label>
+    <input type="number" id="threshold" value="20" min="1" max="100">
+
+    <label for="highThreshold">High Battery Threshold (%)</label>
+    <input type="number" id="highThreshold" value="80" min="1" max="100">
+
+    <label><input type="checkbox" id="enableSound" checked> Enable Sound Notification</label>
+    <label><input type="checkbox" id="enablePopup" checked> Enable Popup Warning</label>
+    <label><input type="checkbox" id="enableHighWarning" checked> Enable High Battery Notification</label>
+    <div>
+    <a href="{% url 'home' %}" class="btn">← Back to Dashboard</a>
+  </div>
+  </div>
+  
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Battery Status Notifier. All rights reserved.
+  </footer>
+
+  <!-- Sounds -->
+  <audio id="lowBatterySound">
+    <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg">
+  </audio>
+  <audio id="highBatterySound">
+    <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
+  </audio>
+
+  <script src="/static/index.js"></script>
+</body>
+</html>

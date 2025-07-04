@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>External Battery</title>
+    <link rel="stylesheet" href="/static/external_battery_status.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>🔋Battery Status Notifier</h1>
+        <nav class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'features' %}">Features</a>
+            <a href="{% url 'about' %}">About</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>External Battery Monitor</h1>
+        <p class="data">Voltage: <span id="voltage">--</span> V</p>
+        <p class="data">Battery Percentage: <span id="percentage">--</span> %</p>
+        <p class="alert" id="message"></p>
+
+        <a href="{% url 'home' %}" class="btn">← Back to Dashboard</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2025 Battery Status Notifier. All rights reserved.
+    </footer>
+
+    <script src="/static/external_battery_status.js"></script>
+</body>
+</html>
